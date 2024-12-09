@@ -1,15 +1,20 @@
+import time
+
 mapa = [
-    "....#.....",
-    ".........#",
-    "..........",
-    "..#.......",
+    ">........#",
+    ".#........",
     ".......#..",
-    "..........",
-    ".#..^.....",
-    "........#.",
+    "...#......",
+    ".....#....",
+    "....#.....",
+    "..#.......",
+    "......#...",
     "#.........",
-    "......#..."
+    "........#."
 ]
+
+def usun_poprzednie():
+    print("\n" * 30)
 
 def znajdz_strzalke():
     for y in range(len(mapa)):
@@ -24,9 +29,10 @@ def usun_strzalke():
         mapa[y] = mapa[y].replace('^', '.').replace('>', '.').replace('v', '.').replace('<', '.')
 
 x, y, kierunek = znajdz_strzalke()
-kroki = -1
+kroki = 0  # Zmieniłem na 0, żeby liczba kroków zaczynała się od 0
 
 def rysuj_mape():
+    usun_poprzednie()
     for i in range(len(mapa)):
         wiersz = list(mapa[i])
         if i == y:
@@ -40,31 +46,33 @@ def wykonaj_ruch():
         a, b = kierunki[kierunek]
         
         # Sprawdzanie, czy strzałka może wykonać ruch
-        if 0 < y < len(mapa) - 1 and 0 < x < len(mapa[0]) - 1 and mapa[y + b][x + a] != "#":
-            x += a
-            y += b
-            kroki += 1
-        elif y == 0 or y == len(mapa) - 1 or x == 0 or x == len(mapa[0]) - 1:
-            print(f"Koniec! Strzałka dotarła do granicy mapy po {kroki} krokach.")
-            exit()  # Kończy działanie programu, gdy strzałka wyjdzie poza mapę
+        if 0 <= y + b < len(mapa) and 0 <= x + a < len(mapa[0]):  # Sprawdzenie, czy nie wychodzi poza mapę
+            if mapa[y + b][x + a] != "#":  # Jeśli nie ma słupa, wykonaj ruch
+                x += a
+                y += b
+                kroki += 1
+            else:
+                # Zmiana kierunku strzałki (obrót w prawo, jeśli napotka słup)
+                if kierunek == "^":
+                    kierunek = ">"
+                elif kierunek == ">":
+                    kierunek = "v"
+                elif kierunek == "v":
+                    kierunek = "<"
+                elif kierunek == "<":
+                    kierunek = "^"
         else:
-            # Zmiana kierunku strzałki (obrót w prawo)
-            if kierunek == "^":
-                kierunek = ">"
-            elif kierunek == ">":
-                kierunek = "v"
-            elif kierunek == "v":
-                kierunek = "<"
-            elif kierunek == "<":
-                kierunek = "^"
+            # Kończymy, jeśli strzałka wyjdzie poza mapę
+            print(f"Koniec! Strzałka opuściła mapę po {kroki} krokach.")
+            exit()
 
     print(kroki)
+
+rysuj_mape()   
+input("Klikni enter żeby rozpocząć chodzenie:\n")
 
 while True:
     usun_strzalke()
     rysuj_mape()
-    if x < 0 or x >= len(mapa[0]) or y < 0 or y >= len(mapa):
-        print(f"Koniec! Strzałka opuściła mapę po {kroki} krokach.")
-        break
     wykonaj_ruch()
-    input("Naciśnij Enter, aby kontynuować...")
+    time.sleep(0.2)
