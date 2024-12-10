@@ -41,3 +41,4 @@ while True:
     # Wyświetlenie aktualnego stanu tablicy
     print("".join(tablica))
     input("Naciśnij Enter, aby kontynuować...")
+
