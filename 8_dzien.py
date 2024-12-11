@@ -41,24 +41,20 @@ tablica_z_antywezlami = [list(wiersz) for wiersz in tablica]
 for z in znaki:
     liczby = znaki[z]
     tablica_par = mozliwosci(liczby, 2)
+    
     for para in tablica_par:
 
         x1, y1 = para[0]
         x2, y2 = para[1]
 
-        odleglosc_x = abs(x1 - x2)
-        odleglosc_y = abs(y1 - y2)
+        odleglosc_x, odleglosc_y = abs(x1 - x2), abs(y1 - y2)
 
         punkt_a_x, punkt_a_y = x1 - odleglosc_x, y1 - odleglosc_y
         punkt_b_x, punkt_b_y = x1 + odleglosc_x, y1 + odleglosc_y
 
-        if 0 <= punkt_a_x < len(tablica) and 0 <= punkt_a_y < len(tablica[0]):
-            if tablica_z_antywezlami[punkt_a_x][punkt_a_y] == ".":
-                tablica_z_antywezlami[punkt_a_x][punkt_a_y] = "#"
-            
-        if 0 <= punkt_b_x < len(tablica) and 0 <= punkt_b_y < len(tablica[0]):
-            if tablica_z_antywezlami[punkt_b_x][punkt_b_y] == ".":
-                tablica_z_antywezlami[punkt_b_x][punkt_b_y] = "#"
+        for punkt_x, punkt_y in [(punkt_a_x, punkt_a_y), (punkt_b_x, punkt_b_y)]:
+            if 0 <= punkt_x < len(tablica) and 0 <= punkt_y < len(tablica[0]) and tablica_z_antywezlami[punkt_x][punkt_y] == ".":
+                tablica_z_antywezlami[punkt_x][punkt_y] = "#"
 
 for wiersz in tablica_z_antywezlami:
     print("".join(wiersz))
