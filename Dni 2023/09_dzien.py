@@ -12,24 +12,24 @@ def ObliczRoznice(wiersz):
     return NowyWiersz
 
 def SprawdzZera(wiersz):
-    # Sprawdza, czy wiersz zawiera tylko zera
     return all(x == 0 for x in wiersz)
 
 def BadajSekwencje(wiersz):
-    # Iteracyjnie liczy różnice aż do osiągnięcia wiersza z samymi zerami
     LiczbaRoznic = 0
-    while LiczbaRoznic <= 10:
+    suma = 0
+    while LiczbaRoznic <= 25:
         print(f"Iteracja {LiczbaRoznic}, wiersz: {wiersz}")
+        suma += wiersz[-1]
         if SprawdzZera(wiersz):
             print(f"Wiersz zawiera tylko zera po {LiczbaRoznic} iteracjach.")
-            return LiczbaRoznic
+            return suma
         wiersz = ObliczRoznice(wiersz)
         LiczbaRoznic += 1
     print(f"Osiągnięto limit iteracji, wiersz: {wiersz}")
-    return LiczbaRoznic
+    return suma
 
 for i in range(len(tablica)):
-    NowaLiczba = BadajSekwencje(tablica[i])
-    tablica[i].append(NowaLiczba)
+    suma = BadajSekwencje(tablica[i])
+    tablica[i].append(suma)
 
 print(f"Po dodaniu pól nowa tablica to:\n{tablica}")
