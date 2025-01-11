@@ -19,7 +19,7 @@ KIERUNKI = {"U": (-1, 0), "D": (1, 0), "R": (0, 1), "L": (0, -1)}
 
 def StworzTab(dane):
     MaxWys, MaxSzer, AktX, AktY = 0, 0, 0, 0
-    pola = []  # Lista odwiedzonych pól
+    pola = []
     KIERUNKI = {"U": (-1, 0), "D": (1, 0), "R": (0, 1), "L": (0, -1)}
 
     for ruch in dane:
@@ -28,21 +28,17 @@ def StworzTab(dane):
         AktX += KIERUNKI[kierunek][0] * kroki
         AktY += KIERUNKI[kierunek][1] * kroki
 
-        # Dodajemy współrzędne śladu między punktami
-        for i in range(kroki + 1):  # Od początku do końca ruchu
+        for i in range(kroki + 1):
             x = StareX + i * KIERUNKI[kierunek][0]
             y = StareY + i * KIERUNKI[kierunek][1]
             pola.append((x, y))
 
-        # Aktualizacja maksymalnych/minimalnych wartości
         MaxWys, MaxSzer = max(MaxWys, AktX), max(MaxSzer, AktY)
 
-    # Tworzenie tablicy z przesunięciem współrzędnych
     wysokosc = MaxWys + 1
     szerokosc = MaxSzer + 1
     tablica = [["." for _ in range(szerokosc)] for _ in range(wysokosc)]
 
-    # Rysowanie odwiedzonych pól
     for x, y in pola:
         tablica[x][y] = "#"
 
@@ -50,9 +46,7 @@ def StworzTab(dane):
 
 tablica, pola = StworzTab(Dane)
 
-# Wyświetlanie tablicy
 for row in tablica:
     print("".join(row))
 
-# Wyświetlanie odwiedzonych pól
 print(pola)
